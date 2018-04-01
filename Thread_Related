@@ -1,0 +1,12 @@
+
+**************** Run Thread in Background after Some Time (Schedule Task Using Thread) *********************
+final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                get_right();
+            }
+        },2000);
+
+************************ ***********************************************************************************
+

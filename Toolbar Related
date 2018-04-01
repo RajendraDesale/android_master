@@ -1,0 +1,34 @@
+
+********Get Action Bar and Set Title to It ***********************************************
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Add Task Profile");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+********************* Action bar Back Press and Enable Home Back Button ******************
+
+  actionBar.setDisplayHomeAsUpEnabled(true);
+
+  ****** Back Action Listener *************
+   
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+******************************************************************************************
+
+################# Common Toast generation ######################################
+  private void tToast(String s) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, s, duration);
+        toast.show();
+    }
+

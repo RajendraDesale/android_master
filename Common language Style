@@ -1,0 +1,29 @@
+
+ 1.Make Class and extend to main application.
+
+     2.set android:name=".App" in mainfiest file 
+
+        public class App extends Application {
+            @Override
+            public void onCreate() {
+                super.onCreate();
+                CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath(getString(R.string.font))
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+                );
+                TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", getString(R.string.font1)); // font from assets: "assets/fonts/
+
+              Roboto-Regular.ttf
+            }
+         }
+
+
+***************************************************
+   and override this method in every activity
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+

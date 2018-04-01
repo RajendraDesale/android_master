@@ -1,0 +1,48 @@
+
+************************ Adapter Codeing **********************************************
+    private void FuntionName() {
+        progressBar = new ProgressDialog(ActivityTaskProfile.this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Please wait ...");
+        progressBar.show();
+
+        String UPLOAD_URL = Application URl;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        try {
+                            JSONObject jsonObject = new JSONObject();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                     progressBar.dismiss();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(this, volleyError.toString(), Toast.LENGTH_LONG).show();
+                progressBar.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<>();
+                params.put("Key","");
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
+
+
+
+
+

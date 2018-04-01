@@ -1,0 +1,185 @@
+
+************************ Adapter Codeing **********************************************
+    public class Adapter_name extends RecyclerView.Adapter<Adapter_name.MyViewHolder> {
+        private List<model_name> list_name;
+        private Context context;
+
+        public CompanyAdapter(Context context, List<model_name> list) {
+            this.context = context;
+            this.list_name = list;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.follow_rowlayout, parent, false);
+            MyViewHolder vh = new MyViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, final int position) {
+            holder.setIsRecyclable(false);
+            holder.view_name.setText(followlist.get(position).getClient_name());
+                        
+        });
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return list_name.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            // init the item view's
+            TextView view_name ;
+
+            public MyViewHolder(View itemView) {
+                super(itemView);
+                // get the reference of item view's
+                view_name = itemView.findViewById(R.id.follow_client_name);
+            }
+        }
+    }
+
+*********************** main Adpter Xml file with Fab Button over recycle view *********
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ActivityDashboard">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/company_"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/add_plus"
+                app:backgroundTint="#54b3bf"
+                app:fabSize="normal" />
+        </FrameLayout>
+</RelativeLayout>
+
+*********************Activity Code For Recycle view ************************************
+        
+ private List<Model_Name> modelList = new ArrayList<>();
+ private RecyclerView recyclerView;
+ private Adapter_name mAdapter;
+
+        mAdapter = new MoviesAdapter(modelList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+*************   Adding RecyclerView Divider / Separator ********************************
+
+recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+ 
+************************* Dependancies *************************************************
+   implementation 'com.android.support:recyclerview-v7:26.1.0'
+
+********************************** row item for list ***********************************
+
+//Note :-  Design as per user requirement 
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+ 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/title"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+ 
+</RelativeLayout>
+*************************** Add Search Item from view************************************
+
+ edit_Text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(mAdapter !=null)
+                mAdapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+  *********** In Adapater write this method ******************
+
+implement filterable interface
+
+    private List<FollowModel> mArrayList;
+    private List<FollowModel> mFilteredList;
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mArrayList = mFilteredList;
+                } else {
+                    ArrayList<FollowModel> filteredList = new ArrayList<>();
+                    for (FollowModel androidVersion : mFilteredList) {
+                        if (androidVersion.getClient_name().toLowerCase().contains(charString) || androidVersion.getMobile().toLowerCase().contains(charString) || androidVersion.getEmail().toLowerCase().contains(charString)) {
+                            filteredList.add(androidVersion);
+                        }
+                    }
+                    mArrayList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mArrayList = (ArrayList<FollowModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
+
+
