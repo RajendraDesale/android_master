@@ -1,0 +1,115 @@
+########### Initial Process ######################################
+    
+    //EXTEND CLASS
+    SQLiteOpenHelper
+
+    //DEFINE DATABASE VARIABLE GLOBLELLY
+    private SQLiteDatabase db; 
+
+    //DATABASE VERSION.
+    private static final int DATABASE_VERSION = 1;
+
+    //DATABASE NAME 
+    private static final String DATABASE_NAME = "database_name.db";
+
+    //Table Name 
+    private static final String TABLE_USER = "table_name";
+
+    // Table Columns 
+    private static final String COLUMN_NAME = "column_name";
+    private static final String COLUMN_NAME = "column_name";
+    private static final String COLUMN_NAME = "column_name";
+    private static final String COLUMN_NAME = "column_name";
+    private static final String COLUMN_NAME = "column_name";
+
+    //Create Table 
+    private String CREATE_TABLE_VARIABLE_NAME = "CREATE TABLE " + TABLE_NAME + "("
+            + COLUMN_NAME + " DATATYPE PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME + " INTEGER,"
+            + COLUMN_NAME + " TEXT," + COLUMN_NAME + " TEXT," + COLUMN_NAME + " TEXT," + COLUMN_NAME + " INTEGER" + ")";
+
+    //Add data in table 
+     public void ADD&UPDATE(DATATYPE VARIABLE_NAME(if any)) {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, STRING PARAMETER);
+        values.put(COLUMN_NAME, );
+        values.put(COLUMN_NAME, );
+        values.put(COLUMN_NAME, );
+        values.put(COLUMN_NAME, );
+
+        // Inserting Row
+        
+        // Query for Update records.   
+        String whereClause = "COLUMN_NAME = ? AND COLUMN_NAME = ?";
+        String[] whereArgs = new String[]{VALUE, VALUE};     
+        db.update(TABLE_NAME, values, whereClause, whereArgs);
+
+        //Query for Insert Records.
+        db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
+        //Close database after execution of query.
+        db.close();
+    }
+
+    //DELETE RECORD FROM TABLE
+     public void DELETE() {
+        db = this.getWritableDatabase();
+
+        //Where conditions 
+        String whereClause = "COLUMN_NAME = ? AND COLUMN_NAME = ?";
+        String[] whereArgs = new String[]{VALUE, VALUE}; 
+    
+        db.delete(TABLE_NAME, null, null);
+        db.close();
+    }
+
+   //Get Record from table.
+   public List<MODEL_NAME> GETRECORD(DATATYPE VARIABLE_NAME(if any)) {
+        Cursor cursor = null;
+        db = this.getReadableDatabase();
+
+        //where clause  variables.
+        String whereClause = "COLUMN_NAME = ? AND COLUMN_NAME = ?";
+        String[] whereArgs = new String[]{VALUE, VALUE}; 
+
+        List<MODEL_NAME> list1 = new ArrayList<>();
+
+        try {
+            String sortOrder = COLUME_NAME + "VALUE(ASC,DESC)";
+            String[] columns = {
+                    COLUMN_NAME,
+                    COLUMN_NAME,
+                    COLUMN_NAME,
+                    COLUMN_NAME,
+                    COLUMN_NAME,
+            };
+
+            cursor = db.query(TABLE_NAME, //Table to query
+                    columns,              //columns to return
+                    whereClause,         //columns for the WHERE clause
+                    whereArgs,           //The values for the WHERE clause
+                    null,                //group the rows
+                    null,                //filter by row groups
+                    sortOrder);          //The sort order
+
+            if (cursor.getCount() > 0) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        MODEL_NAME modelname = new MODEL_NAME();
+                        modelname.settermethod(cursor.getInt(cursor.getColumnIndex("column_name")));
+                        modelname.settermethod(cursor.getString(cursor.getColumnIndex("column_name")));
+                        modelname.settermethod(cursor.getString(cursor.getColumnIndex("column_name")));
+                        list1.add(modelname);
+                    } while (cursor.moveToNext());
+                }
+            }
+        } catch (Exception e) {
+            if (e.getMessage().contains("no such table")) {
+                db.execSQL(CREATE_TABLE_VARIABLE);
+            }
+        } finally {
+            db.close();
+            cursor.close();
+        }
+        return list1;
+    }
