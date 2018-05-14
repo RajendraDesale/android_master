@@ -1,0 +1,198 @@
+
+// Create Dialog box with Data
+
+                Dialog dialog = new Dialog(Contaxt);
+                dialog.setContentView(R.layout.rowitem);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setTitle("Select Student");
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+
+                //set Title on center in Dialog box
+                final TextView textView2 = dialog.findViewById(android.R.id.title);
+                if (textView2 != null) {
+                    textView2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                }
+                
+                //Simple ArrayList for SimpleArrayAdapter 
+                final List<String> simpleList = new ArrayList<>();
+               
+                // Model List For Details Information 
+                final List<StudentModel> modelList = new ArrayList();
+                for (int i = 0; i < modelList.size(); i++) {
+                    simpleList.add(modelList.get(i).getname());
+                }
+
+                //Select all checkbox.
+                final CheckBox chkAll = dialog.findViewById(R.id.chkAll);
+                
+                //get List From Dialog row item
+                dialog_ListView = dialog.findViewById(R.id.list);
+
+                //Set SimpleAdapter to listview.
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityTransportMap.this, android.R.layout.simple_list_item_multiple_choice, retun_embark_stu_list);
+                dialog_ListView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+
+               
+
+                //Set default Check in list.
+                chkAll.setChecked(true);
+                ListView l3 = dialog_ListView2;
+                for (int i = 0; i < adapter2.getCount(); i++) {
+                    l3.setItemChecked(i, true);
+                }
+
+                //Submit and cancel button.
+                AppCompatButton return_btnsubmit = dialog.findViewById(R.id.return_btnsubmit);
+                AppCompatButton return_btncancel = dialog.findViewById(R.id.return_btncancel);
+
+                return_btncancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismissDialog(RETURN_EMBARK_STUDENT_DIALOG_ID);
+                        removeDialog(RETURN_EMBARK_STUDENT_DIALOG_ID);
+                    }
+                });
+
+                dialog_ListView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        chkAll.setChecked(false);
+                    }
+                });
+
+                return_btnsubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int cnt = 0;
+
+                        //get All check item when click on submit but
+                        SparseBooleanArray positions = dialog_ListView2.getCheckedItemPositions();
+
+                        int itemCount = dialog_ListView2.getCount();
+                        for (int i = 0; i < itemCount; i++) {
+                            if (positions.get(i) == true) {
+                               
+                            } else {
+                               
+                            }
+                        }
+
+                        dismissDialog(RETURN_EMBARK_STUDENT_DIALOG_ID);
+                        removeDialog(RETURN_EMBARK_STUDENT_DIALOG_ID);
+                    }
+                });
+
+                /** Defining checkbox click event listener **/
+                View.OnClickListener clickListener2 = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CheckBox chk = (CheckBox) v;
+                        int itemCount = dialog_ListView2.getCount();
+                        for (int i = 0; i < itemCount; i++) {
+                            dialog_ListView2.setItemChecked(i, chk.isChecked());
+                        }
+                    }
+                };
+
+                /** Defining click event listener for the listitem checkbox */
+                AdapterView.OnItemClickListener itemClickListener2 = new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                        int checkedItemCount = getCheckedItemCount();
+                        if (dialog_ListView2.getCount() == checkedItemCount)
+                            return_embark_chkAll.setChecked(true);
+                        else
+                            return_embark_chkAll.setChecked(false);
+                    }
+                };
+
+                /** Setting a click listener for the checkbox **/
+                return_embark_chkAll.setOnClickListener(clickListener2);
+ 
+// Xml for rowItems.
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:paddingRight="5dp"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.6"
+                        android:gravity="center|left"
+                        android:paddingLeft="22dp"
+                        android:text="Select all"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/chkAll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="8.4"
+                        android:gravity="center|right" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:choiceMode="multipleChoice" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:weightSum="2">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/return_btncancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:paddingLeft="25dp"
+                        android:text="Cancel"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/return_btnsubmit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Submit"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
