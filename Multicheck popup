@@ -33,10 +33,7 @@
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityTransportMap.this, android.R.layout.simple_list_item_multiple_choice, retun_embark_stu_list);
                 dialog_ListView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
-
-               
-
+                
                 //Set default Check in list.
                 chkAll.setChecked(true);
                 ListView l3 = dialog_ListView2;
